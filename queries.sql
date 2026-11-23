@@ -146,30 +146,58 @@ select date(rental_date) as rental_date_only, count(*) as count_of_rental from r
 --  12 exercises
 
 -- This is one of the most important sections. Spend extra time here.
-
-
-
-
-
-
-
-
 -- narodnatribuna.info
 
-
 -- No.	Exercise
+use sakila;
 -- 39	Display each customer along with their address.
+select c.first_name, c.last_name, a.address from customer c join address a on c.address_id = a.address_id;
+
 -- 40	Display each address along with its city name.
+select a.address, c.city from address a join city c on a.city_id = c.city_id;
+
 -- 41	Display each city along with its country name.
+select ci.city, co.country from city ci join country co on ci.country_id = co.country_id;
+
 -- 42	Display customer names along with their city and country.
+select cu.first_name, cu.last_name, ci.city, co.country from customer cu 
+join address ad on cu.address_id = ad.address_id
+join city ci on ad.city_id = ci.city_id 
+join country co on ci.country_id = co.country_id;
+
 -- 43	Display each film along with its language.
+select f.title, l.name from film f join language l on f.language_id = l.language_id;
+
 -- 44	Display film titles along with their category names.
+select f.title, c.name from film_category fc join film f on fc.film_id = f.film_id 
+join category c on fc.category_id = c.category_id;
+
 -- 45	Display actor names along with the films they acted in.
+select a.first_name, a.last_name, f.title from film_actor fa join film f on fa.film_id = f.film_id 
+join actor a on fa.actor_id = a.actor_id;
+
 -- 46	Find the number of films each actor has acted in.
+select a.first_name, a.last_name, count(f.title) as count_of_films_acted from film_actor fa join film f on fa.film_id = f.film_id 
+join actor a on fa.actor_id = a.actor_id
+group by a.actor_id, a.first_name, a.last_name;
+
 -- 47	Display each customer along with their rental history.
+select c.first_name, c.last_name, r.* from rental r join customer c on r.customer_id = c.customer_id;
+
 -- 48	Display rental information with customer name, film title and rental date.
+select c.first_name, c.last_name, f.title, r.rental_date from rental r join inventory i on r.inventory_id = i.inventory_id
+join film f on i.film_id = f.film_id
+join customer c on r.customer_id = c.customer_id;
+
 -- 49	Display payment information with customer name and staff name.
+select c.first_name as customer_first_name, c.last_name as customer_last_name, s.first_name as staff_first_name, s.last_name as staff_last_name, p.* from payment p 
+join customer c on p.customer_id = c.customer_id 
+join staff s on p.staff_id = s.staff_id;
+
 -- 50	Display each store along with its manager's name and address.
+select st.first_name as manager_first_name, st.last_name as manager_last_name, ad.address from store s 
+join staff st on s.manager_staff_id = st.staff_id 
+join address ad on st.address_id = ad.address_id;
 
 -- Concepts: INNER JOIN, LEFT JOIN, RIGHT JOIN, multiple joins, table aliases, primary and foreign keys.
 -- Level 6 – Subqueries
